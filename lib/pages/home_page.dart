@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:ordertracking/model/item_model.dart';
 import 'package:ordertracking/service/service.dart';
+import 'package:ordertracking/theme/border_color.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -16,15 +17,8 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _futureItem = OrderTracking().getItem();
-    print("Started");
+    // print("Started");
   }
-
-  // late Future<Item> _futureItem;
-  // void initState() {
-  //   super.initState();
-  //   _futureItem = OrderTracking().getItem();
-  //   print("Started");
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -33,6 +27,9 @@ class _HomePageState extends State<HomePage> {
         title: Text("Order Tracking"),
       ),
       body: RefreshIndicator(
+        // color: Colors.red,
+        backgroundColor: Colors.white,
+        strokeWidth: 1,
         onRefresh: () async {
           _futureItem = OrderTracking().getItem();
           setState(() {});
@@ -49,31 +46,37 @@ class _HomePageState extends State<HomePage> {
                   return Container(
                     margin: const EdgeInsets.all(8),
                     decoration: BoxDecoration(
-                      color: Colors.white,
+                      // color: Colors.white,
+                      border: Border.all(
+                        width: 2,
+                        color: getTagColor(item.tags.toString()),
+                      ),
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: const [
                         BoxShadow(
-                          color: Colors.black,
-                          offset: Offset(0, 2),
-                          blurRadius: 2.0,
+                          color: Colors.black38,
+                          offset: Offset(0, 1),
+                          blurRadius: 1.0,
                         ),
                       ],
                     ),
                     child: Container(
                       child: Column(
                         children: [
-                          Text(item.name),
+                          Text(
+                            "${item.name}",
+                          ),
                           Text(item.tags),
-                          Text(item.qty),
+                          Text(item.qty.toString()),
                           Text(item.description),
-                          Text(item.placeToDeliver),
+                          Text(item.placeToDeliver.toString()),
                           Text(DateFormat("dd.MM ")
                               .format(item.time.toLocal())
                               .toString()),
                           Text(DateFormat("hh:mm a")
                               .format(item.time.toLocal())
                               .toString()),
-                          // Text(item.phone.isNaN.toString()),
+                          Text(item.phone),
                         ],
                       ),
                     ),
@@ -83,7 +86,9 @@ class _HomePageState extends State<HomePage> {
             }
             return Center(
               child: Container(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: Colors.grey,
+                ),
               ),
             );
           },

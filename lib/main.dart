@@ -14,9 +14,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Order Tracking',
       theme: ThemeData(
-        // brightness: Brightness.dark,
+        brightness: Brightness.dark,
         platform: TargetPlatform.iOS,
-        // primaryColor: Colors.white,
+        // primarySwatch: Colors.grey,
       ),
       home: HomePage(),
     );
